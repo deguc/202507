@@ -1,0 +1,35 @@
+#%%
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.integrate import odeint
+
+def mm(var, t, kon, koff, k):
+    S, ES, P = var
+    E = E0 - ES
+    dSdt = -kon*E*S + koff*ES
+    dESdt = kon*E*S - koff*ES - k*ES
+    dPdt =  k*ES
+
+    return [dSdt, dESdt, dPdt]
+
+kon, koff, k = 1, 5, 0.1
+S0, E0 =1000, 1  # 全濃度
+
+t = np.linspace(0, 13000, 1000) # 時間
+init = [S0, 0, 0] # S, ES, Pの初期値
+r = odeint(mm, init, t, args = (kon, koff, k))
+
+print("KM = ", (koff + k)/kon)
+
+plt.figure(figsize = (6,4))
+
+plt.plot(t, (r[:,0]+r[:,1]) / S0, label = '([S] + [ES])/S0',c='green')
+plt.plot(t, r[:,2] / S0, label = '[P]/S0', c = 'red')
+plt.plot(t, r[:,1] / E0, label = '[ES]/E0', c = 'blue')
+plt.legend(bbox_to_anchor=(1, 1))
+plt.xticks([0,5000,10000])
+
+plt.ylabel('Concentration')
+plt.xlabel('Time')
+
+plt.show()
