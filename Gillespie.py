@@ -1,4 +1,3 @@
-#%%
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -6,20 +5,20 @@ import matplotlib.pyplot as plt
 #GilleSpie Direct Method
 #SIR Model
 
-p = 1 #感染率
-q = 0.4 #回復
-p_r = 0.2 #感染者の初期値
+p = 1.0 #感染率
+q = 0.2 #回復
+p_r = 0.1 #感染者の初期値
 
-V=200
+V=100
 
 s = V * (1-p_r)      #susceptible
-i = V * p_r          #infectid
+i = V * p_r          #infected
 r = 0               #recovered
 S,I,R = [s],[i],[r]
 
 t = 0
 T = [t]
-tmax = 20
+tmax = 50
 
 while t < tmax and i > 0:
     
